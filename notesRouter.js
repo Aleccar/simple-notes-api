@@ -29,19 +29,25 @@ notesRouter.get('/:id', (req, res) => {
     if (noteId !== -1) {
         res.status(200).send(notes[noteId])
     } else {
-        res.sendStatus(404)
+        res.status(404).send({ "Error": "The note ID does not exist." })
     }
 })
 
 notesRouter.post('/', (req, res) => {
     const reqData = req.body.body; // double body here to only get the text from what we send in Postman. Can be removed later when we have SQL access and get ID from that.
-    const newData = {
-        id: noteId++,
-        body: reqData
-    };
+    // TODO: We need a way to check if Body is empty, and if it is, throw an error back to the user.
 
-    notes.push(newData);
-    res.status(201).send(newData);
+    if (!reqData) {
+        res.status(400).send({ "Error": "You need to add text to the note." })
+    } else {
+        const newData = {
+            id: noteId++,
+            body: reqData
+        };
+
+        notes.push(newData);
+        res.status(201).send(newData);
+    }
 });
 
 notesRouter.delete('/:id', (req, res) => {
@@ -53,7 +59,7 @@ notesRouter.delete('/:id', (req, res) => {
         notes.splice(idToRemove, 1)
         res.sendStatus(204)
     } else {
-        res.sendStatus(404)
+        res.status(404).send({ "Error": "The note ID does not exist." })
     };
 });
 
