@@ -1,5 +1,6 @@
 const express = require('express')
 const notesRouter = require('./routes/notesRouter')
+const { loggerMiddleware } = require('./middleware/logger')
 const app = express()
 
 app.use(express.json())
@@ -7,13 +8,8 @@ app.use(express.json())
 const PORT = 2999
 
 
-// Logging middleware, will change position later when I figure that out.
-
-app.use(logger = (req, res, next) => {
-    req.time = new Date(Date.now()).toString();
-    console.log(req.method, req.hostname, req.path, req.time)
-    next()
-})
+// Logging middleware:
+app.use(loggerMiddleware)
 
 // Here we mount the Notes Router. 
 app.use('/notes', notesRouter)
