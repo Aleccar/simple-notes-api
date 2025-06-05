@@ -16,15 +16,14 @@ const getIndexById = (id, elementList) => {
 // Here we create a temporary in-memory storage of notes, that will later be converted into a SQL database.
 let notes = [];
 
+// Gets all notes
 notesRouter.get('/', (req, res) => {
     res.json(notes)
 });
 
+// Gets a note with a specific ID
 notesRouter.get('/:id', (req, res) => {
     const noteId = getIndexById(req.params.id, notes)
-
-    console.log(req.params.id)
-    console.log(noteId)
 
     if (noteId !== -1) {
         res.status(200).send(notes[noteId])
@@ -33,6 +32,7 @@ notesRouter.get('/:id', (req, res) => {
     }
 })
 
+// Adds a new note with a unique ID to the notes array
 notesRouter.post('/', (req, res) => {
     const reqData = req.body.body; // double body here to only get the text from what we send in Postman. Can be removed later when we have SQL access and get ID from that.
 
@@ -49,6 +49,7 @@ notesRouter.post('/', (req, res) => {
     }
 });
 
+// Deletes a note based on the ID of the note.
 notesRouter.delete('/:id', (req, res) => {
     // We use the function that I created above to check if there is a note with the id in the notes array.
     const idToRemove = getIndexById(req.params.id, notes);

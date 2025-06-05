@@ -8,7 +8,7 @@ app.use(express.json())
 const PORT = 2999
 
 
-// Logging middleware:
+// Here with initiate Logging middleware so that all calls to the API will log to console.
 app.use(loggerMiddleware)
 
 // Here we mount the Notes Router. 
@@ -17,7 +17,7 @@ app.use('/notes', notesRouter)
 app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
 
 
-
+// A get request that simply sends "Hello World!" to the user.
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
