@@ -1,4 +1,5 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid')
 
 // Here we set up the notes router.
 notesRouter = express.Router();
@@ -8,16 +9,12 @@ notesRouter = express.Router();
 // TODO: Set up a utils middleware functions file to put all these into. In case more are needed.
 const getIndexById = (id, elementList) => {
     return elementList.findIndex((element) => {
-        return element.id === Number(id);
+        return element.id === id
     });
 };
 
-
 // Here we create a temporary in-memory storage of notes, that will later be converted into a SQL database.
 let notes = [];
-
-// create a temorary unique id for each new item coming in by iterating on this by 1 each time a new thing is added.
-let noteId = 1;
 
 notesRouter.get('/', (req, res) => {
     res.json(notes)
@@ -25,6 +22,9 @@ notesRouter.get('/', (req, res) => {
 
 notesRouter.get('/:id', (req, res) => {
     const noteId = getIndexById(req.params.id, notes)
+
+    console.log(req.params.id)
+    console.log(noteId)
 
     if (noteId !== -1) {
         res.status(200).send(notes[noteId])
@@ -35,13 +35,12 @@ notesRouter.get('/:id', (req, res) => {
 
 notesRouter.post('/', (req, res) => {
     const reqData = req.body.body; // double body here to only get the text from what we send in Postman. Can be removed later when we have SQL access and get ID from that.
-    // TODO: We need a way to check if Body is empty, and if it is, throw an error back to the user.
 
     if (!reqData) {
         res.status(400).send({ "Error": "You need to add text to the note." })
     } else {
         const newData = {
-            id: noteId++,
+            id: uuidv4(),
             body: reqData
         };
 
