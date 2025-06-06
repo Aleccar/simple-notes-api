@@ -1,11 +1,12 @@
 const express = require('express')
 const notesRouter = require('./routes/notesRouter')
 const { loggerMiddleware } = require('./middleware/logger')
+require('dotenv').config()
 const app = express()
 
 app.use(express.json())
 
-const PORT = 2999
+const PORT = process.env.PORT
 
 
 // Here with initiate Logging middleware so that all calls to the API will log to console.
