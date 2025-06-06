@@ -43,7 +43,6 @@ notesRouter.post('/', (req, res) => {
 
 // Deletes a note based on the ID of the note.
 notesRouter.delete('/:id', (req, res) => {
-    // We use the function that I created above to check if there is a note with the id in the notes array.
     const idToRemove = getIndexById(req.params.id, notes);
 
     // If a valid ID does not exist it will return -1, so we check for that and run the code that applies.
@@ -54,6 +53,21 @@ notesRouter.delete('/:id', (req, res) => {
         res.status(404).json({ error: "The note ID does not exist." })
     };
 });
+
+// Changes a note of a specified ID.
+notesRouter.put('/:id', (req, res) => {
+    const idToUpdate = getIndexById(req.params.id, notes)
+    const textToChange = req.body.body
+
+    if (idToUpdate !== -1) {
+        if (!textToChange) {
+            res.status(400).json({ error: "You need to add text to update a note!" })
+        } else {
+            notes[idToUpdate].body = textToChange
+            res.status(200).send(notes[idToUpdate])
+        }
+    } else { res.status(404).json({ error: "The note ID does not exist." }) }
+})
 
 
 
