@@ -1,17 +1,9 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid')
+const { getIndexById } = require('../utils')
 
 // Here we set up the notes router.
 const notesRouter = express.Router();
-
-// notesRouter.use(express.json())
-
-// TODO: Set up a utils middleware functions file to put all these into. In case more are needed.
-const getIndexById = (id, elementList) => {
-    return elementList.findIndex((element) => {
-        return element.id === id
-    });
-};
 
 // Here we create a temporary in-memory storage of notes, that will later be converted into a SQL database.
 let notes = [];
