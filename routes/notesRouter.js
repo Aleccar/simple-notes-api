@@ -69,5 +69,3 @@ notesRouter.delete('/:id', (req, res) => {
 module.exports = notesRouter;
 
 
-// A comment to check that it deploys to Render 
-// Added a second comment to check for updates
