@@ -15,13 +15,13 @@ app.use(loggerMiddleware)
 // Here we mount the Notes Router. 
 app.use('/notes', notesRouter)
 
-app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
-
-
-// A get request that simply sends "Hello World!" to the user.
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-// A comment to check that it deploys to Render 
-// Added a second comment to check for updates
+app.use((req, res) => {
+    res.status(404).json({error: 'route does not exist'})
+});
+
+
+app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })

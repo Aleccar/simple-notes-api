@@ -2,7 +2,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid')
 
 // Here we set up the notes router.
-notesRouter = express.Router();
+const notesRouter = express.Router();
 
 // notesRouter.use(express.json())
 
@@ -26,9 +26,9 @@ notesRouter.get('/:id', (req, res) => {
     const noteId = getIndexById(req.params.id, notes)
 
     if (noteId !== -1) {
-        res.status(200).send(notes[noteId])
+        res.status(200).json(notes[noteId])
     } else {
-        res.status(404).send({ "Error": "The note ID does not exist." })
+        res.status(404).json({ error: "The note ID does not exist." })
     }
 })
 
@@ -37,7 +37,7 @@ notesRouter.post('/', (req, res) => {
     const reqData = req.body.body; // double body here to only get the text from what we send in Postman. Can be removed later when we have SQL access and get ID from that.
 
     if (!reqData) {
-        res.status(400).send({ "Error": "You need to add text to the note." })
+        res.status(400).json({ error: "You need to add text to the note." })
     } else {
         const newData = {
             id: uuidv4(),
@@ -59,7 +59,7 @@ notesRouter.delete('/:id', (req, res) => {
         notes.splice(idToRemove, 1)
         res.sendStatus(204)
     } else {
-        res.status(404).send({ "Error": "The note ID does not exist." })
+        res.status(404).json({ error: "The note ID does not exist." })
     };
 });
 
