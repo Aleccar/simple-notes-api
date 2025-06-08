@@ -37,7 +37,7 @@ notesRouter.post('/', (req, res) => {
         };
 
         notes.push(newData);
-        res.status(201).send(newData);
+        res.status(201).json(newData);
     }
 });
 
@@ -61,10 +61,10 @@ notesRouter.put('/:id', (req, res) => {
 
     if (idToUpdate !== -1) {
         if (!textToChange) {
-            res.status(400).json({ error: "You need to add text to update a note!" })
+            res.status(400).json({ error: "You need to add text to update the note." })
         } else {
             notes[idToUpdate].body = textToChange
-            res.status(200).send(notes[idToUpdate])
+            res.status(200).json(notes[idToUpdate])
         }
     } else { res.status(404).json({ error: "The note ID does not exist." }) }
 })
